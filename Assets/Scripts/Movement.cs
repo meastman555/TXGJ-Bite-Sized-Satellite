@@ -49,18 +49,9 @@ public class Movement : MonoBehaviour
     void HorizontalMovement()
     {
         //gets input on X axis, moves player in that direction by a certain movespeed while axis is held
-        float xMovement = Input.GetAxis("Horizontal");
-        //if we aren't pressing the button stop character movement by adding force in opposite x direction
-        //if (xMovement == 0)
-        //{
-        //    Vector2 stopVector = new Vector2(-rb.velocity.x, rb.velocity.y);
-        //    rb.velocity = stopVector;
-        //}
-        //else
-        //{
-            Vector2 movementVector = new Vector2(xMovement * moveSpeed, rb.velocity.y);
-            rb.velocity = movementVector;
-        //}
+        float xMovement = Input.GetAxisRaw("Horizontal");
+        Vector2 movementVector = new Vector2(xMovement * moveSpeed, rb.velocity.y);
+        rb.velocity = movementVector;
     }
 
     //checks if the player wants to jump, and if the character is able to do so
