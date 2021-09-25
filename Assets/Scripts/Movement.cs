@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement : MonoBehaviour
@@ -7,21 +6,21 @@ public class Movement : MonoBehaviour
     //variables exposed to editor
     //default values are from testing with default scene, square sprite size, and camera size
     //will likely be overwritten in editor, but these are a decent fallback
-    //these also were testing using gravity scale of 2 but mass could also be tested
+    //this was tested with mass of 1 and gravity scale of 4
     [SerializeField]
-    private float moveSpeed = 10.0f;
+    private float moveSpeed = 8.0f;
 
     [SerializeField]
-    private float maxSpeed = 20.0f;
+    private float jumpForce = 20.0f;
 
     [SerializeField]
-    private float jumpForce = 10.0f;
-
-    [SerializeField]
-    private float dashForce = 15.0f;
+    private float dashMultiplier = 1.5f;
 
     [SerializeField]
     private float dashCooldown = 2.0f;
+
+    [SerializeField]
+    private float dashDuration = 0.25f;
 
     //private even to editor
     private Rigidbody2D rb;
@@ -50,19 +49,9 @@ public class Movement : MonoBehaviour
     void HorizontalMovement()
     {
         //gets input on X axis, moves player in that direction by a certain movespeed while axis is held
-        float xMovement = Input.GetAxis("Horizontal");
-        //if we aren't pressing the button stop character movement by adding force in opposite x direction
-        if (xMovement == 0)
-        {
-            Vector2 stopVector = new Vector2(-rb.velocity.x, rb.velocity.y);
-            rb.velocity = stopVector;
-        }
-        //caps the character at a max speed
-        if (rb.velocity.magnitude < maxSpeed)
-        {
-            Vector2 movementVector = new Vector2(xMovement * moveSpeed, rb.velocity.y);
-            rb.velocity = movementVector;
-        }
+        float xMovement = Input.GetAxisRaw("Horizontal");
+        Vector2 movementVector = new Vector2(xMovement * moveSpeed, rb.velocity.y);
+        rb.velocity = movementVector;
     }
 
     //checks if the player wants to jump, and if the character is able to do so
@@ -71,9 +60,9 @@ public class Movement : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && bCanJump)
         {
             Debug.Log("Jumping!");
-            float jumpX = (rb.velocity.x == 0) ? 0.5f : rb.velocity.x;
             Vector2 jumpVelocity = new Vector2(rb.velocity.x, jumpForce);
             rb.velocity = jumpVelocity;
+            //makes the character fall to ground faster by increasing gravity
             bCanJump = false;
         }
     }
@@ -97,11 +86,41 @@ public class Movement : MonoBehaviour
     IEnumerator PerformDash()
     {
         Debug.Log("Dashing!");
-        Vector2 dashVelocity = rb.velocity.normalized * dashForce;
+        Vector2 dashDirection = new Vector2(0, 0);
+        //disable gravity for the duration of the dash
+        float oldGravityScale = rb.gravityScale;
+        rb.gravityScale = 0.0f;
+        //determine the base direction of the dash based on player input
+        if(Input.GetKey(KeyCode.W))
+        {
+            dashDirection = new Vector2(0, 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
+        }
+        else if(Input.GetKey(KeyCode.S))
+        {
+            dashDirection = new Vector2(0, -1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
+
+        }
+        else if(Input.GetKey(KeyCode.A))
+        {
+            dashDirection = new Vector2(-1, 0);
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+
+        }
+        else if(Input.GetKey(KeyCode.D))
+        {
+            dashDirection = new Vector2(1, 0);
+            rb.velocity = new Vector2(rb.velocity.x, 0);
+
+        }
+        Vector2 dashVelocity = dashDirection * (dashMultiplier * moveSpeed);
         //AddForce doesn't seem to work here, unsure why
-        rb.velocity = dashVelocity;
-        //rb.velocity = dashVelocity;
+        rb.velocity += dashVelocity;
         bCanDash = false;
+        //reenable gravity
+        yield return new WaitForSeconds(dashDuration);
+        rb.gravityScale = oldGravityScale;
         yield return new WaitForSeconds(dashCooldown);
         bCanDash = true;
     }
