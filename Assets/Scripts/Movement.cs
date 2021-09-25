@@ -8,10 +8,10 @@ public class Movement : MonoBehaviour
     //will likely be overwritten in editor, but these are a decent fallback
     //this was tested with mass of 1 and gravity scale of 4
     [SerializeField]
-    private float moveSpeed = 5.0f;
+    private float moveSpeed = 8.0f;
 
     [SerializeField]
-    private float jumpForce = 10.0f;
+    private float jumpForce = 20.0f;
 
     [SerializeField]
     private float dashMultiplier = 1.5f;
@@ -20,7 +20,7 @@ public class Movement : MonoBehaviour
     private float dashCooldown = 2.0f;
 
     [SerializeField]
-    private float dashDuration = 0.5f;
+    private float dashDuration = 0.25f;
 
     //private even to editor
     private Rigidbody2D rb;
