@@ -91,7 +91,7 @@ public class Movement : MonoBehaviour
     //handles the actual dash action, and waits a specified amount of time before allowing the player to dash again 
     IEnumerator PerformDash()
     {
-=       Vector2 dashVelocity = rb.velocity.normalized * dashForce;
+        Vector2 dashVelocity = rb.velocity.normalized * dashForce;
         //AddForce doesn't seem to work here, unsure why
         //rb.AddForce(dashVelocity, ForceMode2D.Impulse);
         rb.velocity = dashVelocity;
