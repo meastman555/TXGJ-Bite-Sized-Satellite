@@ -29,7 +29,7 @@ public class LetterFollow : MonoBehaviour
 
     public void positionUpdate()
     {
-        target = new Vector2(followedObject.transform.position.x + followDistance, followedObject.transform.position.y);
+        target = new Vector2(followedObject.transform.position.x - followDistance, followedObject.transform.position.y);
         this.transform.DOMove(target, followSpeed);
 
     }
