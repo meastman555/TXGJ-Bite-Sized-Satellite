@@ -7,18 +7,18 @@ public class Movement : MonoBehaviour
     //variables exposed to editor
     //default values are from testing with default scene, square sprite size, and camera size
     //will likely be overwritten in editor, but these are a decent fallback
-    //these also were testing using gravity scale of 2
+    //these also were testing using gravity scale of 2 but mass could also be tested
     [SerializeField]
-    private float moveSpeed = 3.0f;
+    private float moveSpeed = 10.0f;
 
     [SerializeField]
-    private float maxSpeed = 8.0f;
+    private float maxSpeed = 20.0f;
 
     [SerializeField]
-    private float jumpForce = 4.0f;
+    private float jumpForce = 10.0f;
 
     [SerializeField]
-    private float dashForce = 10.0f;
+    private float dashForce = 15.0f;
 
     [SerializeField]
     private float dashCooldown = 2.0f;
@@ -40,6 +40,7 @@ public class Movement : MonoBehaviour
     void Update()
     {
         //should really be doing input checks in update and physics in fixedupdate but it's ok for now :)
+        //also should be using AddForce but that was giving weird physics bugs and wasn't working for every situation
         HorizontalMovement();
         CheckForJump();
         CheckForDash();
@@ -54,13 +55,13 @@ public class Movement : MonoBehaviour
         if (xMovement == 0)
         {
             Vector2 stopVector = new Vector2(-rb.velocity.x, rb.velocity.y);
-            rb.AddForce(stopVector);
+            rb.velocity = stopVector;
         }
         //caps the character at a max speed
         if (rb.velocity.magnitude < maxSpeed)
         {
-            Vector2 movementDir = new Vector2(xMovement, 0);
-            rb.AddForce(movementDir * moveSpeed);
+            Vector2 movementVector = new Vector2(xMovement * moveSpeed, rb.velocity.y);
+            rb.velocity = movementVector;
         }
     }
 
@@ -69,7 +70,11 @@ public class Movement : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space) && bCanJump)
         {
-            Debug.Log("Jumping!");           
+            Debug.Log("Jumping!");
+            float jumpX = (rb.velocity.x == 0) ? 0.5f : rb.velocity.x;
+            Vector2 jumpVelocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = jumpVelocity;
+            bCanJump = false;
         }
     }
 
@@ -91,10 +96,11 @@ public class Movement : MonoBehaviour
     //handles the actual dash action, and waits a specified amount of time before allowing the player to dash again 
     IEnumerator PerformDash()
     {
+        Debug.Log("Dashing!");
         Vector2 dashVelocity = rb.velocity.normalized * dashForce;
         //AddForce doesn't seem to work here, unsure why
-        //rb.AddForce(dashVelocity, ForceMode2D.Impulse);
         rb.velocity = dashVelocity;
+        //rb.velocity = dashVelocity;
         bCanDash = false;
         yield return new WaitForSeconds(dashCooldown);
         bCanDash = true;
