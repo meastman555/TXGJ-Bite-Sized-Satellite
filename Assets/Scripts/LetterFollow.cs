@@ -53,7 +53,7 @@ public class LetterFollow : MonoBehaviour
 
         this.transform.DOMoveX(targetX, followSpeed);
 
-        if(targetY < -8 || targetY < 23)
+        if(targetY < -8 || targetY > 5)
         {
             this.transform.DOMoveY(targetY, followSpeed);
         }
