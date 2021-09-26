@@ -28,6 +28,7 @@ public class NPCDialogue : MonoBehaviour
     private Queue<string> internalDialogueText;
     private Movement playerMovement;
     private bool bCanTalk;
+    private bool bIsNotTalking;
 
 
     // Start is called before the first frame update
@@ -36,6 +37,7 @@ public class NPCDialogue : MonoBehaviour
         internalDialogueText = new Queue<string>(dialogueText);
         playerMovement = player.GetComponent<Movement>();
         bCanTalk = false;
+        bIsNotTalking = false;
         interactBox.SetActive(false);
     }
 
@@ -43,12 +45,11 @@ public class NPCDialogue : MonoBehaviour
     private void Update()
     {
         //starts dialogue when conditions are good
-        if(bCanTalk && Input.GetKeyDown(interactKey))
+        if(bCanTalk && Input.GetKeyDown(interactKey) && bIsNotTalking)
         {
             StartCoroutine("DoDialogue");
         }
     }
-
 
     //player in range of NPC
     void OnTriggerEnter2D(Collider2D collision)
@@ -76,6 +77,7 @@ public class NPCDialogue : MonoBehaviour
     private IEnumerator DoDialogue()
     {
         Debug.Log("Starting Dialogue");
+        bIsNotTalking = false;
         //disables player movement during dialogue duration
         playerMovement.DisableMovement();
 

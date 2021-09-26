@@ -13,28 +13,19 @@ public class Movement : MonoBehaviour
     [SerializeField]
     private float jumpForce = 20.0f;
 
-    [SerializeField]
-    private float dashMultiplier = 1.5f;
-
-    [SerializeField]
-    private float dashCooldown = 2.0f;
-
-    [SerializeField]
-    private float dashDuration = 0.25f;
-
     //private even to editor
     private Rigidbody2D rb;
     private bool bCanMove;
     private bool bCanJump;
-    private bool bCanDash;
+    private bool bCanDoubleJump;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        bCanJump = true;
-        bCanDash = true;
         bCanMove = true;
+        bCanJump = true;
+        bCanDoubleJump = true;
     }
 
     // Update is called once per frame
@@ -47,7 +38,6 @@ public class Movement : MonoBehaviour
             //also should be using AddForce but that was giving weird physics bugs and wasn't working for every situation
             HorizontalMovement();
             CheckForJump();
-            CheckForDash();
         }
     }
 
@@ -63,12 +53,15 @@ public class Movement : MonoBehaviour
     //checks if the player wants to jump, and if the character is able to do so
     private void CheckForJump()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && bCanJump)
+        if(Input.GetKeyDown(KeyCode.Space) && (bCanJump || bCanDoubleJump))
         {
             Debug.Log("Jumping!");
             Vector2 jumpVelocity = new Vector2(rb.velocity.x, jumpForce);
             rb.velocity = jumpVelocity;
-            //makes the character fall to ground faster by increasing gravity
+            //determines the booleans for if this was a single or double
+            //on first jump, double jump is set to true before jump is set to false
+            //on double jump, can jump is false, so they both get set to false until reset
+            bCanDoubleJump = bCanJump;
             bCanJump = false;
         }
     }
@@ -77,57 +70,7 @@ public class Movement : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         bCanJump = true;
-    }
-
-    //checks if the player wants to dash, and handles correct direction
-    private void CheckForDash()
-    {
-        if(Input.GetKeyDown(KeyCode.RightShift) && bCanDash)
-        {
-            StartCoroutine("PerformDash");
-        }
-    }
-
-    //handles the actual dash action, and waits a specified amount of time before allowing the player to dash again 
-    private IEnumerator PerformDash()
-    {
-        Debug.Log("Dashing!");
-        Vector2 dashDirection = new Vector2(0, 0);
-        //disable gravity for the duration of the dash
-        float oldGravityScale = rb.gravityScale;
-        rb.gravityScale = 0.0f;
-        //determine the base direction of the dash based on player input
-        if(Input.GetKey(KeyCode.W))
-        {
-            dashDirection = new Vector2(0, 1);
-            rb.velocity = new Vector2(0, rb.velocity.y);
-        }
-        else if(Input.GetKey(KeyCode.S))
-        {
-            dashDirection = new Vector2(0, -1);
-            rb.velocity = new Vector2(0, rb.velocity.y);
-
-        }
-        else if(Input.GetKey(KeyCode.A))
-        {
-            dashDirection = new Vector2(-1, 0);
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-
-        }
-        else if(Input.GetKey(KeyCode.D))
-        {
-            dashDirection = new Vector2(1, 0);
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-        }
-        Vector2 dashVelocity = dashDirection * (dashMultiplier * moveSpeed);
-        //AddForce doesn't seem to work here, unsure why
-        rb.velocity += dashVelocity;
-        bCanDash = false;
-        //reenable gravity
-        yield return new WaitForSeconds(dashDuration);
-        rb.gravityScale = oldGravityScale;
-        yield return new WaitForSeconds(dashCooldown);
-        bCanDash = true;
+        bCanDoubleJump = true;
     }
 
     //enables or disables movement, called in NPC dialogue during interactions
@@ -141,5 +84,3 @@ public class Movement : MonoBehaviour
         bCanMove = false;
     }
 }
-
-
