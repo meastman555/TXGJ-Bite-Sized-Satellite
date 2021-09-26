@@ -20,6 +20,7 @@ public class Movement : MonoBehaviour
     private bool bCanJump;
     private bool bCanDoubleJump;
     private bool bFacingRight;
+    private bool shouldPlayEnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +36,7 @@ public class Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //determines if player can move or not, set by NPC dialogue during interactions
         if(bCanMove)
         {
@@ -42,7 +44,6 @@ public class Movement : MonoBehaviour
             //also should be using AddForce but that was giving weird physics bugs and wasn't working for every situation
             //HorizontalMovement();
             CheckForJump();
-
 
             if (rb.velocity.x < 0 && bFacingRight)
             {
@@ -73,6 +74,9 @@ public class Movement : MonoBehaviour
             {
                 playerAnimator.StartPlayback();
             }
+        } else if (shouldPlayEnd)
+        {
+                playerAnimator.Play("sleep");
         }
     }
 
@@ -112,8 +116,15 @@ public class Movement : MonoBehaviour
     //character can jump again after coming into contact with something
     void OnCollisionEnter2D(Collision2D other)
     {
-        bCanJump = true;
-        bCanDoubleJump = true;
+
+        if (other.gameObject.tag == "Period")
+        {
+            shouldPlayEnd = true;
+            bCanMove = false;
+        } else {
+            bCanJump = true;
+            bCanDoubleJump = true;
+        }
     }
 
     //enables or disables movement, called in NPC dialogue during interactions
