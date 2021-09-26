@@ -127,6 +127,7 @@ public class Movement : MonoBehaviour
     public void DisableMovement()
     {
         Debug.Log("Disabling Movement!");
+        rb.velocity = new Vector2(0, 0);
         bCanMove = false;
     }
 }
