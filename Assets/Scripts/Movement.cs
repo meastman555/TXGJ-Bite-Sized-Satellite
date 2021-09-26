@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Movement : MonoBehaviour
 {
@@ -20,7 +21,6 @@ public class Movement : MonoBehaviour
     private bool bCanJump;
     private bool bCanDoubleJump;
     private bool bFacingRight;
-    private bool shouldPlayEnd = false;
 
     // Start is called before the first frame update
     void Start()
@@ -74,10 +74,7 @@ public class Movement : MonoBehaviour
             {
                 playerAnimator.StartPlayback();
             }
-        } else if (shouldPlayEnd)
-        {
-                playerAnimator.Play("sleep");
-        }
+        } 
     }
 
     private void FixedUpdate()
@@ -116,15 +113,8 @@ public class Movement : MonoBehaviour
     //character can jump again after coming into contact with something
     void OnCollisionEnter2D(Collision2D other)
     {
-
-        if (other.gameObject.tag == "Period")
-        {
-            shouldPlayEnd = true;
-            bCanMove = false;
-        } else {
-            bCanJump = true;
-            bCanDoubleJump = true;
-        }
+        bCanJump = true;
+        bCanDoubleJump = true;
     }
 
     //enables or disables movement, called in NPC dialogue during interactions
