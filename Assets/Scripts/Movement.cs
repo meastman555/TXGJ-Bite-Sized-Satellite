@@ -14,18 +14,22 @@ public class Movement : MonoBehaviour
     private float jumpForce = 20.0f;
 
     //private even to editor
+    private Animator playerAnimator;
     private Rigidbody2D rb;
     private bool bCanMove;
     private bool bCanJump;
     private bool bCanDoubleJump;
+    private bool bFacingRight;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerAnimator = GetComponent<Animator>();
         bCanMove = true;
         bCanJump = true;
         bCanDoubleJump = true;
+        bFacingRight = true;
     }
 
     // Update is called once per frame
@@ -39,6 +43,37 @@ public class Movement : MonoBehaviour
             HorizontalMovement();
             CheckForJump();
         }
+
+        if(rb.velocity.x < 0 && bFacingRight)
+        {
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            bFacingRight = false;
+        }
+        else if(rb.velocity.x > 0 && !bFacingRight)
+        {
+            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+            bFacingRight = true;
+        }
+        
+        if(rb.velocity.x != 0)
+        {
+            playerAnimator.Play("running");
+        }
+        else
+        {
+            playerAnimator.Play("idle");
+        }
+
+
+        if(bCanJump)
+        {
+            playerAnimator.StopPlayback();
+        }
+        else
+        {
+            playerAnimator.StartPlayback();
+        }
+
     }
 
     //determines the horizontal movement direction based on input
