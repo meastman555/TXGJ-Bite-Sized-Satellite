@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class NPCDialogue : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class NPCDialogue : MonoBehaviour
     private GameObject interactBox;
 
     [SerializeField]
-    private Text dialogueBox;
+    private TextMeshProUGUI dialogueBox;
 
     [SerializeField]
     private string[] dialogueText;
@@ -43,6 +44,7 @@ public class NPCDialogue : MonoBehaviour
         bIsTalking = false;
         bIsForcedDialogue = false;
         interactBox.SetActive(false);
+        dialogueBox.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -62,7 +64,6 @@ public class NPCDialogue : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player" && !bIsForcedDialogue)
         {
-            Debug.Log("Player in NPC trigger");
             bCanTalk = true;
             interactBox.SetActive(true);
         }
@@ -74,7 +75,6 @@ public class NPCDialogue : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player" && !bIsForcedDialogue)
         {
-            Debug.Log("Player out of NPC trigger");
             bCanTalk = false;
             interactBox.SetActive(false);
         }
@@ -83,7 +83,7 @@ public class NPCDialogue : MonoBehaviour
     //starts the NPC's dialogue
     private IEnumerator DoDialogue()
     {
-        Debug.Log("Starting Dialogue");
+        dialogueBox.gameObject.SetActive(true);
         bIsTalking = true;
         //disables player movement during dialogue duration
         playerMovement.DisableMovement();
@@ -92,7 +92,6 @@ public class NPCDialogue : MonoBehaviour
         do
         {
             string s = internalDialogueText.Dequeue();
-            Debug.Log("Displaying line: " + s);
             dialogueBox.text = s;
             yield return StartCoroutine("WaitForUserInput");
         } while(internalDialogueText.Count != 0);
@@ -102,7 +101,7 @@ public class NPCDialogue : MonoBehaviour
         //resets the queue in case we talk to this NPC again
         internalDialogueText = new Queue<string>(dialogueText);
         bIsTalking = false;
-        Debug.Log("Finishing Dialogue. Giving the player a letter");
+        dialogueBox.gameObject.SetActive(false);
         //no letter is given during forced dialogue
         if(!bIsForcedDialogue)
         {
