@@ -22,6 +22,9 @@ public class NPCDialogue : MonoBehaviour
     private KeyCode advanceKey;
 
     [SerializeField]
+    private GameObject letterToGive;
+
+    [SerializeField]
     private GameObject player;
 
     //private even to editor
@@ -29,7 +32,7 @@ public class NPCDialogue : MonoBehaviour
     private Movement playerMovement;
     private bool bCanTalk;
     private bool bIsTalking;
-
+    private bool bIsForcedDialogue;
 
     // Start is called before the first frame update
     void Start()
@@ -38,13 +41,15 @@ public class NPCDialogue : MonoBehaviour
         playerMovement = player.GetComponent<Movement>();
         bCanTalk = false;
         bIsTalking = false;
+        bIsForcedDialogue = false;
         interactBox.SetActive(false);
     }
 
     // Update is called once per frame
     private void Update()
     {
-        //starts dialogue when conditions are good
+        //starts dialogue when conditions are good, prevent restart while already talking
+        //skips interaction completely in triggers if this is forced dialogue
         if(bCanTalk && Input.GetKeyDown(interactKey) && !bIsTalking)
         {
             StartCoroutine("DoDialogue");
@@ -52,9 +57,10 @@ public class NPCDialogue : MonoBehaviour
     }
 
     //player in range of NPC
+    //not applicable during forced dialogue
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player" && !bIsForcedDialogue)
         {
             Debug.Log("Player in NPC trigger");
             bCanTalk = true;
@@ -63,9 +69,10 @@ public class NPCDialogue : MonoBehaviour
     }
 
     //player out of range of NPC
+    //not applicable during forced dialogue
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if(collision.gameObject.tag == "Player" && !bIsForcedDialogue)
         {
             Debug.Log("Player out of NPC trigger");
             bCanTalk = false;
@@ -95,7 +102,12 @@ public class NPCDialogue : MonoBehaviour
         //resets the queue in case we talk to this NPC again
         internalDialogueText = new Queue<string>(dialogueText);
         bIsTalking = false;
-        Debug.Log("Finishing Dialogue");
+        Debug.Log("Finishing Dialogue. Giving the player a letter");
+        //no letter is given during forced dialogue
+        if(!bIsForcedDialogue)
+        {
+            letterToGive.SetActive(true);
+        }
     }
 
     //separate coroutine to infinitely loop until user presses space
@@ -107,5 +119,11 @@ public class NPCDialogue : MonoBehaviour
         {
             yield return null;
         } while(!Input.GetKeyDown(advanceKey));
+    }
+
+    //sets this NPC dialogue to forced, removing player interactivity completely
+    public void SetAsForcedDialogue()
+    {
+        bIsForcedDialogue = true;
     }
 }
