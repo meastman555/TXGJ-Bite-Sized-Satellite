@@ -24,6 +24,7 @@ public class Movement : MonoBehaviour
 
     //private even to editor
     private Rigidbody2D rb;
+    private bool bCanMove;
     private bool bCanJump;
     private bool bCanDash;
 
@@ -33,20 +34,25 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         bCanJump = true;
         bCanDash = true;
+        bCanMove = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        //should really be doing input checks in update and physics in fixedupdate but it's ok for now :)
-        //also should be using AddForce but that was giving weird physics bugs and wasn't working for every situation
-        HorizontalMovement();
-        CheckForJump();
-        CheckForDash();
+        //determines if player can move or not, set by NPC dialogue during interactions
+        if(bCanMove)
+        {
+            //should really be doing input checks in update and physics in fixedupdate but it's ok for now :)
+            //also should be using AddForce but that was giving weird physics bugs and wasn't working for every situation
+            HorizontalMovement();
+            CheckForJump();
+            CheckForDash();
+        }
     }
 
     //determines the horizontal movement direction based on input
-    void HorizontalMovement()
+    private void HorizontalMovement()
     {
         //gets input on X axis, moves player in that direction by a certain movespeed while axis is held
         float xMovement = Input.GetAxisRaw("Horizontal");
@@ -55,7 +61,7 @@ public class Movement : MonoBehaviour
     }
 
     //checks if the player wants to jump, and if the character is able to do so
-    void CheckForJump()
+    private void CheckForJump()
     {
         if(Input.GetKeyDown(KeyCode.Space) && bCanJump)
         {
@@ -74,7 +80,7 @@ public class Movement : MonoBehaviour
     }
 
     //checks if the player wants to dash, and handles correct direction
-    void CheckForDash()
+    private void CheckForDash()
     {
         if(Input.GetKeyDown(KeyCode.RightShift) && bCanDash)
         {
@@ -83,7 +89,7 @@ public class Movement : MonoBehaviour
     }
 
     //handles the actual dash action, and waits a specified amount of time before allowing the player to dash again 
-    IEnumerator PerformDash()
+    private IEnumerator PerformDash()
     {
         Debug.Log("Dashing!");
         Vector2 dashDirection = new Vector2(0, 0);
@@ -123,6 +129,17 @@ public class Movement : MonoBehaviour
         rb.gravityScale = oldGravityScale;
         yield return new WaitForSeconds(dashCooldown);
         bCanDash = true;
+    }
+
+    //enables or disables movement, called in NPC dialogue during interactions
+    public void EnableMovement()
+    {
+        bCanMove = true;
+    }
+
+    public void DisableMovement()
+    {
+        bCanMove = false;
     }
 }
 
