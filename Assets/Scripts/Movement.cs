@@ -40,7 +40,7 @@ public class Movement : MonoBehaviour
         {
             //should really be doing input checks in update and physics in fixedupdate but it's ok for now :)
             //also should be using AddForce but that was giving weird physics bugs and wasn't working for every situation
-            HorizontalMovement();
+            //HorizontalMovement();
             CheckForJump();
         }
 
@@ -74,6 +74,14 @@ public class Movement : MonoBehaviour
             playerAnimator.StartPlayback();
         }
 
+    }
+
+    private void FixedUpdate()
+    {
+        if(bCanMove)
+        {
+            HorizontalMovement();
+        }
     }
 
     //determines the horizontal movement direction based on input
