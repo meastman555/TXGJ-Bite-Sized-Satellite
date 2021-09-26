@@ -57,5 +57,10 @@ public class LetterFollow : MonoBehaviour
         {
             this.transform.DOMoveY(targetY, followSpeed);
         }
+        else
+        {
+            targetY = -1.59f;
+            this.transform.DOMoveY(targetY, followSpeed);
+        }
     }
 }
