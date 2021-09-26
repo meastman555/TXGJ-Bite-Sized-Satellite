@@ -5,12 +5,14 @@ using UnityEngine;
 public class AudioTrigger : MonoBehaviour
 {
 
-    //variables exposed to editor
+    //variables exposed to the editor
     [SerializeField]
     private int clipNumberToFadeIn;
 
     [SerializeField]
     private AudioFade audioFade;
+
+    //private even to editor
     private bool bFading;
 
     void Start()
