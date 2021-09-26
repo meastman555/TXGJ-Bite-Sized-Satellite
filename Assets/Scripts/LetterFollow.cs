@@ -49,9 +49,7 @@ public class LetterFollow : MonoBehaviour
     public void cameraUpdate()
     {
         targetX = followedObject.transform.position.x;
-        targetY = followedObject.transform.position.y;
 
         this.transform.DOMoveX(targetX, followSpeed);
-        this.transform.DOMoveY(targetY, followSpeed);
     }
 }
