@@ -10,6 +10,7 @@ public class LetterFollow : MonoBehaviour
     public float followSpeed;
     private Vector2 target;
     private float targetX;
+    private float targetY;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +49,13 @@ public class LetterFollow : MonoBehaviour
     public void cameraUpdate()
     {
         targetX = followedObject.transform.position.x;
+        targetY = followedObject.transform.position.y;
 
         this.transform.DOMoveX(targetX, followSpeed);
+
+        if(targetY < -8)
+        {
+            this.transform.DOMoveY(targetY, followSpeed);
+        }
     }
 }
