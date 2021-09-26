@@ -6872,7 +6872,7 @@ PrefabInstance:
     - target: {fileID: 4406854355241862176, guid: 0b243e3d152f8144eb19b26d774049f6, type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 6200000, guid: abdc07d224525af418f9635953910610, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4406854355241862177, guid: 0b243e3d152f8144eb19b26d774049f6, type: 3}
       propertyPath: m_SortingOrder
       value: 10
