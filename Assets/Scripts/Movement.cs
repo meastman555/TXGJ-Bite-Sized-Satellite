@@ -42,38 +42,38 @@ public class Movement : MonoBehaviour
             //also should be using AddForce but that was giving weird physics bugs and wasn't working for every situation
             //HorizontalMovement();
             CheckForJump();
-        }
-
-        if(rb.velocity.x < 0 && bFacingRight)
-        {
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            bFacingRight = false;
-        }
-        else if(rb.velocity.x > 0 && !bFacingRight)
-        {
-            transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
-            bFacingRight = true;
-        }
-        
-        if(rb.velocity.x != 0)
-        {
-            playerAnimator.Play("running");
-        }
-        else
-        {
-            playerAnimator.Play("idle");
-        }
 
 
-        if(bCanJump)
-        {
-            playerAnimator.StopPlayback();
-        }
-        else
-        {
-            playerAnimator.StartPlayback();
-        }
+            if (rb.velocity.x < 0 && bFacingRight)
+            {
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                bFacingRight = false;
+            }
+            else if (rb.velocity.x > 0 && !bFacingRight)
+            {
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                bFacingRight = true;
+            }
 
+            if (rb.velocity.x != 0)
+            {
+                playerAnimator.Play("running");
+            }
+            else
+            {
+                playerAnimator.Play("idle");
+            }
+
+
+            if (bCanJump)
+            {
+                playerAnimator.StopPlayback();
+            }
+            else
+            {
+                playerAnimator.StartPlayback();
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -119,11 +119,13 @@ public class Movement : MonoBehaviour
     //enables or disables movement, called in NPC dialogue during interactions
     public void EnableMovement()
     {
+        Debug.Log("Enabling Movement!");
         bCanMove = true;
     }
 
     public void DisableMovement()
     {
+        Debug.Log("Disabling Movement!");
         bCanMove = false;
     }
 }

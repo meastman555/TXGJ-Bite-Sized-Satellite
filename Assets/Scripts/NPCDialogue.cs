@@ -83,11 +83,12 @@ public class NPCDialogue : MonoBehaviour
     //starts the NPC's dialogue
     private IEnumerator DoDialogue()
     {
-        dialogueBox.gameObject.SetActive(true);
-        bIsTalking = true;
         //disables player movement during dialogue duration
         playerMovement.DisableMovement();
-
+        //sets the correct variables to be active
+        dialogueBox.gameObject.SetActive(true);
+        interactBox.SetActive(false);
+        bIsTalking = true;
         //handles each dialogue string and waits for user input before moving on
         do
         {
@@ -96,8 +97,6 @@ public class NPCDialogue : MonoBehaviour
             yield return StartCoroutine("WaitForUserInput");
         } while(internalDialogueText.Count != 0);
 
-        //reenables player movement
-        playerMovement.EnableMovement();
         //resets the queue in case we talk to this NPC again
         internalDialogueText = new Queue<string>(dialogueText);
         bIsTalking = false;
@@ -107,6 +106,8 @@ public class NPCDialogue : MonoBehaviour
         {
             letterToGive.SetActive(true);
         }
+        //reenables player movement
+        playerMovement.EnableMovement();
     }
 
     //separate coroutine to infinitely loop until user presses space

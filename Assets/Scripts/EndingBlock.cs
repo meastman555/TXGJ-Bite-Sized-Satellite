@@ -9,7 +9,7 @@ public class EndingBlock : MonoBehaviour
     private GameObject player;
 
     [SerializeField]
-    private GameObject sage;
+    private GameObject guide;
 
     //forced dialogue if you try to move past sage without all the letters
     //private even to editor
@@ -21,7 +21,7 @@ public class EndingBlock : MonoBehaviour
     void Start()
     {
         bc = GetComponent<BoxCollider2D>();
-        dialogue = sage.GetComponent<NPCDialogue>();
+        dialogue = guide.GetComponent<NPCDialogue>();
         //sets this NPC to have forced dialogue, removing player interactions
         dialogue.SetAsForcedDialogue();
         //we assume we have all the children on collision -- if we are missing one it is immediately set to false
