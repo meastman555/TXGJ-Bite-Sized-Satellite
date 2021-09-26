@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
 
 public class AudioFade : MonoBehaviour
 {
     //variables exposed to the editor
     [SerializeField]
-    private float fadeDurationSeconds;
+    private float fadeDurationSeconds = 5.0f;
 
     //private even to editor
     private AudioSource[] audioSources;
@@ -19,15 +18,14 @@ public class AudioFade : MonoBehaviour
         audioSources = GetComponents<AudioSource>();
     }
 
-    //fades out the from region clip, fades in the to region clip
-    //smooth transition between tracks when switching zones
+    //fads in the audio clip specified by track num over a time frame
     public void FadeInTrack(int trackNum)
     {
-        StartCoroutine(DoFade(trackNum));
+        StartCoroutine(DoFadeIn(trackNum));
     }
 
     //coroutine to allow for smooth fading
-    private IEnumerator DoFade(int trackNum)
+    private IEnumerator DoFadeIn(int trackNum)
     {
         AudioSource fadeAudioSource = audioSources[trackNum];
         while(fadeAudioSource.volume < 1.0f)
