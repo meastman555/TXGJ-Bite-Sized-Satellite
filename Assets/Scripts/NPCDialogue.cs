@@ -31,6 +31,7 @@ public class NPCDialogue : MonoBehaviour
     //private even to editor
     private Queue<string> internalDialogueText;
     private Movement playerMovement;
+    private AudioSource npcAudio;
     private bool bCanTalk;
     private bool bIsTalking;
     private bool bIsForcedDialogue;
@@ -40,6 +41,7 @@ public class NPCDialogue : MonoBehaviour
     {
         internalDialogueText = new Queue<string>(dialogueText);
         playerMovement = player.GetComponent<Movement>();
+        npcAudio = GetComponent<AudioSource>();
         bCanTalk = false;
         bIsTalking = false;
         bIsForcedDialogue = false;
@@ -92,6 +94,8 @@ public class NPCDialogue : MonoBehaviour
         //handles each dialogue string and waits for user input before moving on
         do
         {
+            //plays the attached sound effect each time new text is rendered
+            npcAudio.Play();
             string s = internalDialogueText.Dequeue();
             dialogueBox.text = s;
             yield return StartCoroutine("WaitForUserInput");
