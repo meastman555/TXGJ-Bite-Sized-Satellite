@@ -3099,7 +3099,7 @@ GameObject:
   - component: {fileID: 634361652}
   m_Layer: 5
   m_Name: wall
-  m_TagString: Untagged
+  m_TagString: Period
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3972,7 +3972,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &823273979
 Transform:
   m_ObjectHideFlags: 0
@@ -4623,7 +4623,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8977936848828264100, guid: acd865fefbc0439439a24b61781d0344, type: 3}
       propertyPath: dialogueText.Array.data[3]
-      value: Kelly Shen - Art/animation
+      value: Kelly Shen - art/animation
       objectReference: {fileID: 0}
     - target: {fileID: 8977936848828264100, guid: acd865fefbc0439439a24b61781d0344, type: 3}
       propertyPath: dialogueText.Array.data[4]
@@ -4631,7 +4631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8977936848828264100, guid: acd865fefbc0439439a24b61781d0344, type: 3}
       propertyPath: dialogueText.Array.data[5]
-      value: Jasper Murphy - SFX/Music
+      value: Jasper Murphy - sfx/music
       objectReference: {fileID: 0}
     - target: {fileID: 8977936848828264100, guid: acd865fefbc0439439a24b61781d0344, type: 3}
       propertyPath: dialogueText.Array.data[6]
@@ -4639,7 +4639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8977936848828264100, guid: acd865fefbc0439439a24b61781d0344, type: 3}
       propertyPath: dialogueText.Array.data[7]
-      value: Thanks for playing our game! ~ bite-sized satellite
+      value: thanks for playing our game! ~ bite-sized satellite
       objectReference: {fileID: 0}
     - target: {fileID: 8977936848828264100, guid: acd865fefbc0439439a24b61781d0344, type: 3}
       propertyPath: dialogueText.Array.data[8]
@@ -10458,6 +10458,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4406854355241862181, guid: 0b243e3d152f8144eb19b26d774049f6, type: 3}
   m_PrefabInstance: {fileID: 1881921236}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1881921238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881921237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2e3c0c511046b94c83ecf31a2bdf38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  transitionTime: 3
 --- !u!4 &1881921243 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4406854355241862190, guid: 0b243e3d152f8144eb19b26d774049f6, type: 3}
