@@ -163,7 +163,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &421519824
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -243,7 +243,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 10
   jumpForce: 15
-  dashMultiplier: 1.5
+  dashMultiplier: 10
   dashCooldown: 2
   dashDuration: 0.5
 --- !u!61 &421519827
@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 610052628}
   m_Layer: 0
   m_Name: letter (1)
-  m_TagString: Untagged
+  m_TagString: Letter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followedObject: {fileID: 980533918}
   followDistance: 1.2
-  followSpeed: 0.5
+  followSpeed: 0.3
 --- !u!50 &610052629
 Rigidbody2D:
   serializedVersion: 4
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 980533919}
   m_Layer: 0
   m_Name: letter
-  m_TagString: Untagged
+  m_TagString: Letter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followedObject: {fileID: 421519822}
   followDistance: 1.2
-  followSpeed: 0.5
+  followSpeed: 0.3
 --- !u!50 &980533920
 Rigidbody2D:
   serializedVersion: 4
@@ -584,6 +584,7 @@ GameObject:
   - component: {fileID: 1071806798}
   - component: {fileID: 1071806797}
   - component: {fileID: 1071806796}
+  - component: {fileID: 1071806799}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -626,7 +627,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -650,12 +651,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1071806795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -10.16}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1071806799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1071806795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 330486a8c9372684dbe0ee28d572c19d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  followedObject: {fileID: 421519822}
+  followDistance: 0
+  followSpeed: 1.5
 --- !u!1 &1202725297
 GameObject:
   m_ObjectHideFlags: 0
@@ -779,7 +795,7 @@ GameObject:
   - component: {fileID: 1776997135}
   m_Layer: 0
   m_Name: letter (2)
-  m_TagString: Untagged
+  m_TagString: Letter
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -798,7 +814,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followedObject: {fileID: 610052627}
   followDistance: 1.2
-  followSpeed: 0.5
+  followSpeed: 0.3
 --- !u!50 &1776997136
 Rigidbody2D:
   serializedVersion: 4

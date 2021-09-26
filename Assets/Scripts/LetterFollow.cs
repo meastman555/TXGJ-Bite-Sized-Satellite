@@ -9,16 +9,28 @@ public class LetterFollow : MonoBehaviour
     public float followDistance;
     public float followSpeed;
     private Vector2 target;
+    private float targetX;
+    private float targetY;
 
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(LetterUpdate());
+        if(this.gameObject.tag == "Letter")
+        {
+            StartCoroutine(LetterUpdate());
+        }
+    }
+    private void Update()
+    {
+        if(this.gameObject.tag == "MainCamera")
+        {
+            cameraUpdate();
+        }
     }
 
     private IEnumerator LetterUpdate()
     {
-        WaitForSeconds wait = new WaitForSeconds(0.1f);
+        WaitForSeconds wait = new WaitForSeconds(0.05f);
 
         while (true)
         {
@@ -32,5 +44,14 @@ public class LetterFollow : MonoBehaviour
         target = new Vector2(followedObject.transform.position.x - followDistance, followedObject.transform.position.y);
         this.transform.DOMove(target, followSpeed);
 
+    }
+
+    public void cameraUpdate()
+    {
+        targetX = followedObject.transform.position.x;
+        targetY = followedObject.transform.position.y;
+
+        this.transform.DOMoveX(targetX, followSpeed);
+        this.transform.DOMoveY(targetY, followSpeed);
     }
 }
