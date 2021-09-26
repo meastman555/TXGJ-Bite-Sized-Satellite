@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Letter
   - Period
+  - music
   layers:
   - Default
   - TransparentFX

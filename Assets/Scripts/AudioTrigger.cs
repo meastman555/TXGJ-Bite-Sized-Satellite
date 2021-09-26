@@ -9,7 +9,6 @@ public class AudioTrigger : MonoBehaviour
     [SerializeField]
     private int clipNumberToFadeIn;
 
-    [SerializeField]
     private GameObject musicManager;
 
     //private even to editor
@@ -18,6 +17,7 @@ public class AudioTrigger : MonoBehaviour
 
     void Start()
     {
+        musicManager = GameObject.FindGameObjectWithTag("music");
         audioFade = musicManager.GetComponent<AudioFade>();
         bFading = false;
     }

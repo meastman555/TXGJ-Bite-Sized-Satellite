@@ -11,6 +11,18 @@ public class AudioFade : MonoBehaviour
     //private even to editor
     private AudioSource[] audioSources;
 
+    void Awake()
+    {
+        if (GameObject.FindGameObjectsWithTag("music").Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
