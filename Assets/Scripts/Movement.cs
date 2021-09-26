@@ -118,7 +118,6 @@ public class Movement : MonoBehaviour
         {
             dashDirection = new Vector2(1, 0);
             rb.velocity = new Vector2(rb.velocity.x, 0);
-
         }
         Vector2 dashVelocity = dashDirection * (dashMultiplier * moveSpeed);
         //AddForce doesn't seem to work here, unsure why
