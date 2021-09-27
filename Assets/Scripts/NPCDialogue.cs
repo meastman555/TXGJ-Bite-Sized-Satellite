@@ -116,11 +116,8 @@ public class NPCDialogue : MonoBehaviour
         internalDialogueText = new Queue<string>(dialogueText);
         bIsTalking = false;
         dialogueBox.gameObject.SetActive(false);
-        //no letter is given during forced dialogue
-        if(!bIsForcedDialogue)
-        {
-            letterToGive.SetActive(true);
-        }
+        //no letter is given during forced dialogue, uses an empty gameobject
+        letterToGive.SetActive(true);
         //reenables player movement
         playerMovement.EnableMovement();
     }
