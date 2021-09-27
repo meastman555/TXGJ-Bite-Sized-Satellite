@@ -9,6 +9,9 @@ public class SetCollidersFromTrigger : MonoBehaviour
     private GameObject[] colliders;
 
     [SerializeField]
+    private bool bDisableGround;
+
+    [SerializeField]
     private GameObject groundColliderToDisable;
 
     //when the player enteres this trigger, activate all the linked collider game objects
@@ -22,7 +25,10 @@ public class SetCollidersFromTrigger : MonoBehaviour
             {
                 g.SetActive(true);
             }
-            groundColliderToDisable.SetActive(false);
+            if(bDisableGround)
+            {
+                groundColliderToDisable.SetActive(false);
+            }
         }
     }
 }

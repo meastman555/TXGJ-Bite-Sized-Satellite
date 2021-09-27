@@ -40,6 +40,7 @@ public class NPCDialogue : MonoBehaviour
     void Start()
     {
         internalDialogueText = new Queue<string>(dialogueText);
+        Debug.Log("Number of lines of dialogue in Start: " + internalDialogueText.Count);
         playerMovement = player.GetComponent<Movement>();
         npcAudio = GetComponent<AudioSource>();
         bCanTalk = false;
@@ -56,6 +57,7 @@ public class NPCDialogue : MonoBehaviour
         //skips interaction completely in triggers if this is forced dialogue
         if(bCanTalk && Input.GetKeyDown(interactKey) && !bIsTalking)
         {
+            Debug.Log("Calling DoDialogueCoroutine from NPCDialogue");
             StartCoroutine("DoDialogue");
         }
     }
@@ -82,9 +84,18 @@ public class NPCDialogue : MonoBehaviour
         }
     }
 
+    //wrapper for the coroutine that can be called from another script
+    public void StartDialogue()
+    {
+        Debug.Log("Calling DoDialogue Coroutine from EndingBlock");
+        StartCoroutine("DoDialogue");
+    }
+
     //starts the NPC's dialogue
     private IEnumerator DoDialogue()
     {
+        Debug.Log("Called DoDialogue Coroutine");
+        Debug.Log("Number of lines of dialogue in DoDialogue: " + internalDialogueText.Count);
         //disables player movement during dialogue duration
         playerMovement.DisableMovement();
         //sets the correct variables to be active
@@ -92,15 +103,15 @@ public class NPCDialogue : MonoBehaviour
         interactBox.SetActive(false);
         bIsTalking = true;
         //handles each dialogue string and waits for user input before moving on
-        do
+        while(internalDialogueText.Count != 0)
         {
             //plays the attached sound effect each time new text is rendered
             npcAudio.Play();
             string s = internalDialogueText.Dequeue();
+            Debug.Log("Displaying text: " + s);
             dialogueBox.text = s;
             yield return StartCoroutine("WaitForUserInput");
-        } while(internalDialogueText.Count != 0);
-
+        }
         //resets the queue in case we talk to this NPC again
         internalDialogueText = new Queue<string>(dialogueText);
         bIsTalking = false;

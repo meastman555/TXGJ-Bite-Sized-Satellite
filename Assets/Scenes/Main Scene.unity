@@ -2112,6 +2112,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 1958774829}
     m_Modifications:
     - target: {fileID: 6781155417618605328, guid: 75efdbb3b3dee2349954a09fe78462eb, type: 3}
+      propertyPath: bDisableGround
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6781155417618605328, guid: 75efdbb3b3dee2349954a09fe78462eb, type: 3}
       propertyPath: colliders.Array.size
       value: 1
       objectReference: {fileID: 0}

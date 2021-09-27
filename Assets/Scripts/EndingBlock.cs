@@ -16,6 +16,7 @@ public class EndingBlock : MonoBehaviour
     private BoxCollider2D bc;
     private NPCDialogue dialogue;
     private bool bAllChildrenActive;
+    private bool bCalledDialogue;
 
     // Start is called before the first frame update
     void Start()
@@ -39,11 +40,12 @@ public class EndingBlock : MonoBehaviour
             for(int i = 0; i < player.transform.childCount; i++)
             {
                 Transform child = player.transform.GetChild(i);
-                if(!child.gameObject.activeInHierarchy)
+                if(!child.gameObject.activeInHierarchy && !bCalledDialogue)
                 {
                     bAllChildrenActive = false;
+                    bCalledDialogue = true;
                     //inactive child, start dialogue
-                    dialogue.StartCoroutine("DoDialogue");
+                    dialogue.StartDialogue();
                 }
             }
             //every child is active, set this to a trigger so the player can walk past
@@ -60,6 +62,7 @@ public class EndingBlock : MonoBehaviour
         if(collision.gameObject.tag == "Player")
         {
             bAllChildrenActive = true;
+            bCalledDialogue = false;
         }
     }
 }
